@@ -1,5 +1,19 @@
 let input_folder = "input"
 
+let parse_file' file_name =
+  let rec lists l ic =
+    try
+      let line = input_line ic in
+      let parts = Str.split (Str.regexp " ") line in
+      lists (List.map int_of_string parts :: l) ic
+    with End_of_file ->
+      close_in ic;
+      l
+  in
+  let ic = open_in (input_folder ^ "/" ^ file_name) in
+  lists [] ic
+
+
 let parse_file file_name =
   let rec lists l1 l2 ic = 
     try
